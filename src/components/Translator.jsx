@@ -68,8 +68,13 @@ export default function Translator() {
     window.speechSynthesis.speak(utterance);
   };
   const copyText = async() =>{
-    navigator.clipboard.writeText(translatedText);
-    toast.success("Text copied successfully")
+    {translatedText === 'Translation' ?(
+      navigator.clipboard.writeText('') &&
+      toast.warning("No text to be copied")
+    ):(
+      navigator.clipboard.writeText(translatedText) &&
+      toast.success("Text copied")
+    )}    
   }
   return (
     <>
