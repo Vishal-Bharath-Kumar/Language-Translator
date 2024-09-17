@@ -96,7 +96,7 @@
     border: none;
     font-size: 20px;
     font-family: Manrope;
-    background-color: white;
+    background-color: rgb(255, 255, 255);
     overflow: auto;
     color: #202124;
     outline: none;
@@ -143,7 +143,14 @@
     border-radius: 4px;
   }
 
- .mic{
+  .mic{
+    z-index: 2;
+    position: absolute;
+    top: 120px;
+    left: 210px;
+    cursor: pointer;
+   } 
+ .copy{
   z-index: 2;
   position: absolute;
   top: 120px;
@@ -151,24 +158,36 @@
   cursor: pointer;
  } 
  @media screen and (max-width: 600px) {
-  .mic{
+  .copy{
     left: 200px;
+  }
+  .mic{
+    left: 170px;
   }
  }
  @media screen and (max-width: 500px) {
-  .mic{
+  .copy{
     left: 330px;
+  }
+  .mic{
+    left: 290px;
   }
  }
  @media screen and (max-width: 400px) {
-  .mic{
+  .copy{
     left: 300px;
+  }
+  .mic{
+    left: 260px;
   }
  }
 
  @media screen and (max-width: 360px) {
-  .mic{
+  .copy{
     left: 280px;
+  }
+  .mic{
+    left: 240px;
   }
  }
  

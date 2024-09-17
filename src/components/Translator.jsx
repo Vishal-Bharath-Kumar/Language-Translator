@@ -67,6 +67,10 @@ export default function Translator() {
     utterance.lang = outputFormat;
     window.speechSynthesis.speak(utterance);
   };
+  const copyText = async() =>{
+    navigator.clipboard.writeText(translatedText);
+    toast.success("Text copied successfully")
+  }
   return (
     <>
       <h1 className="header">Language Translator</h1>
@@ -147,6 +151,12 @@ export default function Translator() {
             ) : (
               ""
             )}
+            <img src="https://uxwing.com/wp-content/themes/uxwing/download/file-and-folder-type/copy-file-icon.png" alt="Copy" 
+                height={18}
+                className="copy"
+                width={18}
+                onClick={copyText}
+                />
           </div>
         </div>
         <div className="row3">
