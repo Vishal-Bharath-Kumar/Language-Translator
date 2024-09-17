@@ -5,6 +5,7 @@
   font-family: "Kaushan Script";
   font-size: 54px;
   margin-top: -20px;
+  color: #213547;
 }
   .container {
     display: flex;
@@ -36,6 +37,7 @@
     cursor: pointer;
     outline: none;
     user-select: none;
+    background-color: white;
   }
   
   .reverseSvg {
@@ -94,6 +96,7 @@
     border: none;
     font-size: 20px;
     font-family: Manrope;
+    background-color: white;
     overflow: auto;
     color: #202124;
     outline: none;
@@ -147,6 +150,28 @@
   left: 250px;
   cursor: pointer;
  } 
+ @media screen and (max-width: 600px) {
+  .mic{
+    left: 200px;
+  }
+ }
+ @media screen and (max-width: 500px) {
+  .mic{
+    left: 330px;
+  }
+ }
+ @media screen and (max-width: 400px) {
+  .mic{
+    left: 300px;
+  }
+ }
+
+ @media screen and (max-width: 360px) {
+  .mic{
+    left: 280px;
+  }
+ }
+ 
 .outputLang{
   margin-top: -5px;
 }
