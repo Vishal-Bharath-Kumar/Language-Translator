@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import "./Translator.css";
 import languageList from "../constants/Language.json";
 import { ToastContainer, toast } from "react-toastify";
@@ -15,6 +15,7 @@ export default function Translator() {
   const [transcript, setTranscript] = useState("");
   const [isListening, setIsListening] = useState(false);
   const [recognition, setRecognition] = useState(null);
+  const transcriptRef = useRef("");
 
   const handleReverseLanguage = () => {
     const value = inputFormat;
@@ -91,8 +92,10 @@ export default function Translator() {
 
       newRecognition.onresult = (event) => {
         const lastResultIndex = event.results.length - 1;
-        const lastResult = event.results[lastResultIndex];
-        setTranscript(lastResult[0].transcript);
+        const lastResult = event.results[lastResultIndex];       
+        const spokenText = lastResult[0].transcript;
+        setInputText(spokenText);
+        transcriptRef.current = spokenText; 
       };
 
       newRecognition.onerror = (event) => {
@@ -108,10 +111,9 @@ export default function Translator() {
   const startListening = () => {
     if (recognition) {
       setIsListening(true);
+      setTranscript("");
       recognition.start();
-      console.log({ transcript });
     }
-    setInputText(transcript);
   };
 
   const stopListening = () => {
