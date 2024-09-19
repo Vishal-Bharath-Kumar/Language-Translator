@@ -157,12 +157,22 @@
   left: 250px;
   cursor: pointer;
  } 
+ .Mic{
+  z-index: 2;
+  position: absolute;
+  top: 135px;
+  right: 255px;
+  cursor: pointer;
+ }
  @media screen and (max-width: 600px) {
   .copy{
     left: 200px;
   }
   .mic{
     left: 170px;
+  }
+  .Mic{
+    right: 200px;
   }
  }
  @media screen and (max-width: 500px) {
@@ -172,6 +182,9 @@
   .mic{
     left: 290px;
   }
+  .Mic{
+    right: 340px;
+  }
  }
  @media screen and (max-width: 400px) {
   .copy{
@@ -179,6 +192,9 @@
   }
   .mic{
     left: 260px;
+  }
+  .Mic{
+    right: 300px;
   }
  }
 
@@ -188,6 +204,9 @@
   }
   .mic{
     left: 240px;
+  }
+  .Mic{
+    right: 270px;
   }
  }
  

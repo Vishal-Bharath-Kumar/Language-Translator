@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "./Translator.css";
 import languageList from "../constants/Language.json";
 import { ToastContainer, toast } from "react-toastify";
@@ -12,6 +12,9 @@ export default function Translator() {
   const [translatedText, setTranslatedText] = useState("Translation");
   const [inputText, setInputText] = useState("");
   const [loading, setLoading] = useState(false);
+  const [transcript, setTranscript] = useState("");
+  const [isListening, setIsListening] = useState(false);
+  const [recognition, setRecognition] = useState(null);
 
   const handleReverseLanguage = () => {
     const value = inputFormat;
@@ -67,15 +70,57 @@ export default function Translator() {
     utterance.lang = outputFormat;
     window.speechSynthesis.speak(utterance);
   };
-  const copyText = async() =>{
-    {translatedText === 'Translation' ?(
-      navigator.clipboard.writeText('') &&
-      toast.warning("No text to be copied")
-    ):(
-      navigator.clipboard.writeText(translatedText) &&
-      toast.success("Text copied")
-    )}    
-  }
+  const copyText = async () => {
+    {
+      translatedText === "Translation"
+        ? navigator.clipboard.writeText("") &&
+          toast.warning("No text to be copied")
+        : navigator.clipboard.writeText(translatedText) &&
+          toast.success("Text copied");
+    }
+  };
+
+  useEffect(() => {
+    const SpeechRecognition =
+      window.SpeechRecognition || window.webkitSpeechRecognition;
+
+    if (SpeechRecognition) {
+      const newRecognition = new SpeechRecognition();
+      newRecognition.continuous = false;
+      newRecognition.interimResults = false;
+
+      newRecognition.onresult = (event) => {
+        const lastResultIndex = event.results.length - 1;
+        const lastResult = event.results[lastResultIndex];
+        setTranscript(lastResult[0].transcript);
+      };
+
+      newRecognition.onerror = (event) => {
+        console.error("Speech recognition error", event.error);
+      };
+
+      setRecognition(newRecognition);
+    } else {
+      toast.error("Browser doesn't support speech recognition");
+    }
+  }, []);
+
+  const startListening = () => {
+    if (recognition) {
+      setIsListening(true);
+      recognition.start();
+      console.log({ transcript });
+    }
+    setInputText(transcript);
+  };
+
+  const stopListening = () => {
+    if (recognition) {
+      setIsListening(false);
+      recognition.stop();     
+    }
+  };
+
   return (
     <>
       <h1 className="header">Language Translator</h1>
@@ -134,6 +179,28 @@ export default function Translator() {
             >
               <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"></path>
             </svg>
+            {inputFormat == "en" ?(
+              isListening ?(
+                <img
+                  src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRZhP6vhTndmAeBWznO7n17sqPwBFUzjouR3aa_vnGdHB2rXr6pvHuQ8AkxME0lWK59xL8&usqp=CAU"
+                  alt="mic"
+                  height={20}
+                  width={20}
+                  className="Mic"
+                  onClick={stopListening}
+                />
+              ) : (
+                <img
+                  src="https://www.iconpacks.net/icons/1/free-microphone-icon-342-thumb.png"
+                  alt="mic"
+                  height={20}
+                  width={20}
+                  className="Mic"
+                  onClick={startListening}
+                />
+              )                
+              ) : null            
+            }          
             <textarea
               type="text"
               value={inputText}
@@ -156,12 +223,14 @@ export default function Translator() {
             ) : (
               ""
             )}
-            <img src="https://uxwing.com/wp-content/themes/uxwing/download/file-and-folder-type/copy-file-icon.png" alt="Copy" 
-                height={18}
-                className="copy"
-                width={18}
-                onClick={copyText}
-                />
+            <img
+              src="https://uxwing.com/wp-content/themes/uxwing/download/file-and-folder-type/copy-file-icon.png"
+              alt="Copy"
+              height={18}
+              className="copy"
+              width={18}
+              onClick={copyText}
+            />
           </div>
         </div>
         <div className="row3">
